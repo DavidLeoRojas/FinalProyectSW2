@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Orden</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Editar Orden</h1>
+    <form id="orderEditForm">
+        <label>ID: <input type="text" name="id" required></label><br>
+        <label>Producto: <input type="text" name="productname" required></label><br>
+        <label>Cantidad: <input type="text" name="cuantity" required></label><br>
+        <label>Valor: <input type="text" name="value" required></label><br>
+        <button type="submit">Editar</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        const token = localStorage.getItem('jwt');
+        if (!token) {
+            window.location.href = "login.html";
+        }
+        document.getElementById('orderEditForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                id: form.id.value,
+                productname: form.productname.value,
+                cuantity: form.cuantity.value,
+                value: form.value.value
+            };
+            const res = await fetch('/editorder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(data)
+            });
+            document.getElementById('result').innerText = await res.text();
+        }
+    </script>
+</body>
+</html>

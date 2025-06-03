@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label>Usuario: <input type="text" name="user" required></label><br>
+        <label>Contraseña: <input type="password" name="pass" required></label><br>
+        <button type="submit">Entrar</button>
+    </form>
+    <div id="loginResult" style="color:red;"></div>
+    <script>
+        document.getElementById('loginForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                username: form.user.value,
+                password: form.pass.value
+            };
+            try {
+                const res = await fetch('/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                const token = await res.text();
+                if (res.ok && token.startsWith("ey")) {
+                    localStorage.setItem('jwt', token);
+                    window.location.href = "menu.html";
+                } else {
+                    document.getElementById('loginResult').innerText = token || "Credenciales inválidas";
+                }
+            } catch (err) {
+                document.getElementById('loginResult').innerText = "Error de conexión con el servidor";
+            }
+        }
+    </script>
+</body>
+</html>

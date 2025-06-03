@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar Orden</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Eliminar Orden</h1>
+    <form id="orderDeleteForm">
+        <label>ID: <input type="text" name="id" required></label><br>
+        <button type="submit">Eliminar</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        const token = localStorage.getItem('jwt');
+        if (!token) {
+            window.location.href = "login.html";
+        }
+        document.getElementById('orderDeleteForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const id = e.target.id.value;
+            const res = await fetch('/deleteorder/' + id, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            document.getElementById('result').innerText = await res.text();
+        }
+    </script>
+</body>
+</html>

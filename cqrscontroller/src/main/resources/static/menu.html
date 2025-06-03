@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú Principal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Menú Principal</h1>
+    <ul>
+        <li><a href="orders-table.html">Ver Órdenes</a></li>
+        <li><a href="order-form.html">Agregar Orden</a></li>
+        <li><a href="order-edit.html">Editar Orden</a></li>
+        <li><a href="order-delete.html">Eliminar Orden</a></li>
+        <li><a href="customer-table.html">Ver Clientes</a></li>
+        <li><a href="customer-form.html">Agregar Cliente</a></li>
+        <li><a href="customer-edit.html">Editar Cliente</a></li>
+        <li><a href="customer-delete.html">Eliminar Cliente</a></li>
+        <li><a href="login.html" onclick="logout()">Cerrar sesión</a></li>
+    </ul>
+    <script>
+        function logout() {
+            localStorage.removeItem('jwt');
+        }
+    </script>
+</body>
+</html>

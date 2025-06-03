@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Cliente</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Agregar Cliente</h1>
+    <form id="customerForm">
+        <label>Documento: <input type="text" name="document" required></label><br>
+        <label>Nombre: <input type="text" name="firstname" required></label><br>
+        <label>Apellido: <input type="text" name="lastname" required></label><br>
+        <label>Dirección: <input type="text" name="address" required></label><br>
+        <label>Teléfono: <input type="text" name="phone" required></label><br>
+        <label>Email: <input type="email" name="email" required></label><br>
+        <button type="submit">Agregar</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        const token = localStorage.getItem('jwt');
+        if (!token) {
+            window.location.href = "login.html";
+        }
+        document.getElementById('customerForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                document: form.document.value,
+                firstname: form.firstname.value,
+                lastname: form.lastname.value,
+                address: form.address.value,
+                phone: form.phone.value,
+                email: form.email.value
+            };
+            const res = await fetch('/addcustomer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(data)
+            });
+            document.getElementById('result').innerText = await res.text();
+        }
+    </script>
+</body>
+</html>

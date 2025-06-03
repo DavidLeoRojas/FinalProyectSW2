@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar Cliente</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Eliminar Cliente</h1>
+    <form id="customerDeleteForm">
+        <label>ID: <input type="text" name="id" required></label><br>
+        <button type="submit">Eliminar</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        const token = localStorage.getItem('jwt');
+        if (!token) {
+            window.location.href = "login.html";
+        }
+        document.getElementById('customerDeleteForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const id = e.target.id.value;
+            const res = await fetch('/deletecustomer/' + id, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            document.getElementById('result').innerText = await res.text();
+        }
+    </script>
+</body>
+</html>
